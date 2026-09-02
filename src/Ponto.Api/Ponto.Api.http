@@ -1,0 +1,6 @@
+@Ponto.Api_HostAddress = http://localhost:5029
+
+GET {{Ponto.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Ponto.Api/Ponto.Api.csproj" />
+    <Project Path="src/Ponto.Data/Ponto.Data.csproj" />
+    <Project Path="src/Ponto.Domain/Ponto.Domain.csproj" />
+  </Folder>
+</Solution>
