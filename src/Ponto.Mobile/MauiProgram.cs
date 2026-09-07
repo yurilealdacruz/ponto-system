@@ -18,7 +18,8 @@ namespace Ponto.Mobile
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddHttpClient<Services.PontoApiService>();
+            builder.Services.AddTransient<MainPage>();
             return builder.Build();
         }
     }
