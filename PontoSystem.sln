@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12120.119 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8F9F472-20B8-4F1A-AA78-57DA7ED2AEFD}"
 EndProject
@@ -11,13 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponto.Domain", "src\Ponto.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponto.Data", "src\Ponto.Data\Ponto.Data.csproj", "{3F312595-7298-4207-BF40-3155EFCFD1D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponto.Mobile", "src\Ponto.Mobile\Ponto.Mobile.csproj", "{2640A97C-0ADE-4D34-A73C-EE7E1B935836}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DFA41AF8-4353-402B-BB0A-96511F8E2031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,10 +31,20 @@ Global
 		{3F312595-7298-4207-BF40-3155EFCFD1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F312595-7298-4207-BF40-3155EFCFD1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F312595-7298-4207-BF40-3155EFCFD1D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2640A97C-0ADE-4D34-A73C-EE7E1B935836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2640A97C-0ADE-4D34-A73C-EE7E1B935836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2640A97C-0ADE-4D34-A73C-EE7E1B935836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2640A97C-0ADE-4D34-A73C-EE7E1B935836}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DFA41AF8-4353-402B-BB0A-96511F8E2031} = {A8F9F472-20B8-4F1A-AA78-57DA7ED2AEFD}
 		{B796F8CE-6941-4BCB-BDC8-489E237A129E} = {A8F9F472-20B8-4F1A-AA78-57DA7ED2AEFD}
 		{3F312595-7298-4207-BF40-3155EFCFD1D9} = {A8F9F472-20B8-4F1A-AA78-57DA7ED2AEFD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D44F184-4F70-4025-A155-4FFB63576BCC}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ponto.Mobile.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25"
+        VerticalOptions="Center">
+
+            <Label
+            Text="Sistema de Ponto"
+            FontSize="32"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
+
+            <Label
+            Text="Registre sua entrada ou saída"
+            FontSize="18"
+            HorizontalOptions="Center" />
+
+            <Button
+            x:Name="BtnRegistrarPonto"
+            Text="Bater Ponto"
+            Clicked="OnRegistrarPontoClicked"
+            HorizontalOptions="Center"
+            WidthRequest="200"
+            HeightRequest="60"
+            CornerRadius="30"
+            BackgroundColor="#512BD4"
+            TextColor="White"
+            FontSize="18"
+            FontAttributes="Bold"/>
+
+            <Label
+            x:Name="StatusLabel"
+            Text=""
+            FontSize="16"
+            TextColor="Green"
+            HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
