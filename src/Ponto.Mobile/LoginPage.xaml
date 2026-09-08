@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ponto.Mobile.LoginPage"
+             Title="Login">
+
+    <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+        <Label Text="Sistema de Ponto" FontSize="32" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,0,0,30" />
+
+        <Entry x:Name="IdentificadorEntry" 
+               Placeholder="CPF ou ID" 
+               Keyboard="Text" />
+
+        <Entry x:Name="SenhaEntry" 
+               Placeholder="Senha" 
+               IsPassword="True" />
+
+        <Button Text="Entrar" 
+                Clicked="OnLoginClicked" 
+                BackgroundColor="#512BD4" 
+                TextColor="White" 
+                CornerRadius="8" 
+                Margin="0,20,0,0" />
+
+    </VerticalStackLayout>
+</ContentPage>

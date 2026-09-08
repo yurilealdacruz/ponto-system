@@ -43,4 +43,19 @@ public class FuncionariosController : ControllerBase
             
         return Ok(funcionarios);
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginDto dto)
+    {
+        // Aqui você busca no banco pelo CPF ou ID e valida a senha
+        var funcionario = await _context.Funcionarios
+            .FirstOrDefaultAsync(f => (f.Id.ToString() == dto.Identificador || f.Cpf == dto.Identificador) && f.Ativo);
+
+        if (funcionario == null || funcionario.Senha != dto.Senha)
+        {
+            return Unauthorized(new { mensagem = "Credenciais inválidas ou funcionário inativo." });
+        }
+
+        return Ok(funcionario);
+    }
 }
