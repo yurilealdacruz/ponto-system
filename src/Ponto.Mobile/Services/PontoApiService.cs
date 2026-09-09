@@ -10,7 +10,7 @@ public class PontoApiService
     {
         _httpClient = httpClient;
         // Substitua pela porta real que você copiou do Swagger
-        _httpClient.BaseAddress = new Uri("https://localhost:7185/");
+        _httpClient.BaseAddress = new Uri("https://ponto-system.onrender.com/");
     }
 
     public async Task<string> RegistrarPontoAsync()

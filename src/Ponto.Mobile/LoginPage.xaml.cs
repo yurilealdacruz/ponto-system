@@ -23,7 +23,7 @@ public partial class LoginPage : ContentPage
         try
         {
             // URL da sua API rodando no Windows
-            string apiUrl = "https://localhost:7185/api/Funcionarios/login";
+            string apiUrl = "https://ponto-system.onrender.com/api/Funcionarios/login";
 
             // Ignorar validação de SSL de desenvolvimento (apenas para teste local)
             var handler = new HttpClientHandler
