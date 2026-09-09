@@ -7,6 +7,7 @@ FROM ://microsoft.com AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Ponto.Api/Ponto.Api.csproj", "src/Ponto.Api/"]
+COPY ["src/Ponto.Data/Ponto.Data.csproj", "src/Ponto.Data/"]
 RUN dotnet restore "src/Ponto.Api/Ponto.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Ponto.Api"
