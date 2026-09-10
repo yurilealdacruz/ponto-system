@@ -57,6 +57,20 @@ public class RegistrosPontoController : ControllerBase
 
         return Ok(registros);
     }
+
+    // NOVA ROTA INSERIDA AQUI:
+    // Rota: GET api/RegistrosPonto/funcionario/1
+    [HttpGet("funcionario/{funcionarioId}")]
+    public async Task<IActionResult> GetHistoricoFuncionario(int funcionarioId)
+    {
+        // Busca os pontos apenas do funcionário logado, ordenando do mais recente para o mais antigo
+        var registros = await _context.RegistrosPonto
+            .Where(r => r.FuncionarioId == funcionarioId)
+            .OrderByDescending(r => r.DataHoraOficial)
+            .ToListAsync();
+
+        return Ok(registros);
+    }
 }
 
 // Objeto auxiliar (DTO) para receber os dados do app mobile com segurança
