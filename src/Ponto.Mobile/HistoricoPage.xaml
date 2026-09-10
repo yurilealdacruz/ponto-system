@@ -2,8 +2,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ponto.Mobile.HistoricoPage"
-             Title="Histórico">
-    <VerticalStackLayout VerticalOptions="Center">
-        <Label Text="Aqui vai ficar a tabela..." HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Meu Histórico">
+
+    <RefreshView x:Name="AtualizarView" Refreshing="OnRefresh">
+        <CollectionView x:Name="ListaHistorico" Margin="15">
+            
+            <!-- Cabeçalho da Tabela -->
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*" Padding="0,0,0,15">
+                    <Label Text="Data" FontAttributes="Bold" Grid.Column="0" />
+                    <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
+                    <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center"/>
+                    <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center"/>
+                    <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center"/>
+                </Grid>
+            </CollectionView.Header>
+            
+            <!-- Linhas da Tabela (repetidas dinamicamente) -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*" Padding="0,12">
+                        <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="Gray" />
+                        <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
+    </RefreshView>
+
 </ContentPage>
