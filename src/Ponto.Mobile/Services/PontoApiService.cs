@@ -20,7 +20,7 @@ public class PontoApiService
             var response = await _httpClient.PostAsJsonAsync("api/RegistrosPonto", new { FuncionarioId = 1 });
 
             if (response.IsSuccessStatusCode)
-                return $"Ponto batido com sucesso às {DateTime.Now:HH:mm:ss}";
+                return $"Ponto registrado com sucesso às {DateTime.Now:HH:mm:ss}";
 
             // Lendo o erro real gerado pela API
             var erroDetalhe = await response.Content.ReadAsStringAsync();
