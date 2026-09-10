@@ -9,6 +9,11 @@
         Spacing="25"
         VerticalOptions="Center">
 
+            <Label x:Name="SaudacaoLabel" 
+            FontSize="20" 
+            HorizontalOptions="Center" 
+            TextColor="Gray" />
+
             <Label
             Text="Sistema de Ponto"
             FontSize="32"

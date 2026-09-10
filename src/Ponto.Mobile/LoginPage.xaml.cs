@@ -22,7 +22,7 @@ public partial class LoginPage : ContentPage
 
         try
         {
-            // URL da sua API rodando no Windows
+            // URL da sua API rodando no Render
             string apiUrl = "https://ponto-system.onrender.com/api/Funcionarios/login";
 
             // Ignorar validação de SSL de desenvolvimento (apenas para teste local)
@@ -39,17 +39,34 @@ public partial class LoginPage : ContentPage
 
             if (response.IsSuccessStatusCode)
             {
-                // Se a API retornar 200 OK, redireciona para a tela principal (AppShell carrega a MainPage)
+                // 1. Lê os dados do funcionário que a API devolveu
+                var funcionario = await response.Content.ReadFromJsonAsync<FuncionarioResponse>();
+
+                if (funcionario != null)
+                {
+                    // 2. Salva o ID e o Nome de forma segura no aparelho
+                    Preferences.Default.Set("FuncionarioId", funcionario.Id);
+                    Preferences.Default.Set("FuncionarioNome", funcionario.Nome);
+                }
+
+                // 3. Redireciona para a tela principal (AppShell carrega a MainPage)
                 Application.Current.MainPage = new AppShell();
             }
             else
             {
-                await DisplayAlert("Acesso Negado", "CPF/ID ou senha incorretos.", "OK");
+                await DisplayAlert("Acesso Negado", "CPF ou senha incorretos.", "OK");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro de Conexão", $"Não foi possível conectar na API: {ex.Message}", "OK");
+            await DisplayAlert("Erro de Conexão", $"Não foi possível conectar com o servidor {ex.Message}", "OK");
         }
     }
+}
+
+// Classe auxiliar para receber os dados do JSON da API
+public class FuncionarioResponse
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
 }
