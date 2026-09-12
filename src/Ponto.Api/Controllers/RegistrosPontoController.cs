@@ -26,6 +26,22 @@ public class RegistrosPontoController : ControllerBase
             return BadRequest(new { mensagem = "Funcionário não encontrado ou inativo." });
         }
 
+            // NOVO: Busca o último ponto batido por este funcionário
+        var ultimoPonto = await _context.RegistrosPonto
+            .Where(r => r.FuncionarioId == dto.FuncionarioId)
+            .OrderByDescending(r => r.DataHoraOficial)
+            .FirstOrDefaultAsync();
+
+        // Se houver um ponto anterior, verifica a diferença de tempo
+        if (ultimoPonto != null)
+        {
+            var tempoPassado = DateTime.UtcNow - ultimoPonto.DataHoraOficial;
+            if (tempoPassado.TotalMinutes < 5) // Trava de 5 minutos
+            {
+                return BadRequest(new { mensagem = "Você já bateu o ponto recentemente. Aguarde alguns minutos." });
+            }
+        }
+
         // 2. Segurança: A data e hora são geradas pelo servidor, nunca pelo celular do usuário
         var novoPonto = new RegistroPonto
         {
