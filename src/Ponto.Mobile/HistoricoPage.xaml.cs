@@ -22,6 +22,15 @@ public partial class HistoricoPage : ContentPage
         AtualizarView.IsRefreshing = false;
     }
 
+    private async void OnSolicitarAjusteClicked(object? sender, EventArgs e)
+    {
+        if (sender is ImageButton button && button.CommandParameter is DateTime dataSelecionada)
+        {
+            // Abre a tela de solicitação como um pop-up (Modal) por cima da tela atual
+            await Navigation.PushModalAsync(new SolicitarAjustePage(dataSelecionada));
+        }
+    }
+
     private async Task CarregarHistorico()
     {
         try
@@ -43,6 +52,7 @@ public partial class HistoricoPage : ContentPage
                         var pontosDoDia = grupo.ToList();
                         return new DiaTrabalho
                         {
+                            DataOriginal = grupo.Key,
                             DataFormatada = grupo.Key.ToString("ddd, dd MMM"),
                             Ponto1 = pontosDoDia.Count > 0 ? pontosDoDia[0].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
                             Ponto2 = pontosDoDia.Count > 1 ? pontosDoDia[1].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
@@ -64,6 +74,8 @@ public partial class HistoricoPage : ContentPage
     }
 }
 
+
+
 public class RegistroPontoResponse
 {
     public DateTime DataHoraOficial { get; set; }
@@ -72,9 +84,11 @@ public class RegistroPontoResponse
 public class DiaTrabalho
 {
     // O = string.Empty evita o warning de "propriedade não pode ser nula"
+    public DateTime DataOriginal { get; set; }
     public string DataFormatada { get; set; } = string.Empty;
     public string Ponto1 { get; set; } = string.Empty;
     public string Ponto2 { get; set; } = string.Empty;
     public string Ponto3 { get; set; } = string.Empty;
     public string Ponto4 { get; set; } = string.Empty;
 }
+

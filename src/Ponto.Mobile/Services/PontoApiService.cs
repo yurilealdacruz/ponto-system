@@ -24,7 +24,7 @@ public class PontoApiService
 
             // Lendo o erro real gerado pela API
             var erroDetalhe = await response.Content.ReadAsStringAsync();
-            return $"Detalhe: {erroDetalhe}";
+            return $"{erroDetalhe}";
         }
         catch (Exception ex)
         {

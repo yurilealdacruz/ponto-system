@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ponto.Mobile.SolicitarAjustePage"
+             Title="Solicitar Ajuste"
+             BackgroundColor="#F5F5F5">
+
+    <VerticalStackLayout Padding="20" Spacing="20">
+        <Label Text="Solicitar Ajuste de Ponto" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+        <Label Text="Preencha os dados abaixo para enviar a solicitação ao RH." FontSize="14" TextColor="Gray" HorizontalOptions="Center" />
+
+            <Border Padding="15" BackgroundColor="White" Stroke="Transparent">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="15">
+                
+                <Label Text="Data Sugerida:" FontAttributes="Bold" />
+                <DatePicker x:Name="DataAjustePicker" Format="dd/MM/yyyy" />
+
+                <Label Text="Hora Correta:" FontAttributes="Bold" />
+                <TimePicker x:Name="HoraAjustePicker" Format="HH:mm" />
+
+                <Label Text="Justificativa:" FontAttributes="Bold" />
+                <Entry x:Name="JustificativaEntry" Placeholder="Ex: Esqueci de bater o ponto na saída" MaxLength="250" />
+
+            </VerticalStackLayout>
+        </Border>
+
+        <Button x:Name="BtnEnviarSolicitacao" Text="Enviar Solicitação" Clicked="OnEnviarClicked" BackgroundColor="#4B0082" TextColor="White" CornerRadius="8" HeightRequest="50" />
+        
+        <Button Text="Cancelar" Clicked="OnCancelarClicked" BackgroundColor="Transparent" TextColor="Red" />
+
+    </VerticalStackLayout>
+</ContentPage>

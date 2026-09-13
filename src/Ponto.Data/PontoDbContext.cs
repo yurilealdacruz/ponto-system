@@ -11,4 +11,5 @@ public class PontoDbContext : DbContext
     public DbSet<Cargo> Cargos { get; set; }
     public DbSet<Funcionario> Funcionarios { get; set; }
     public DbSet<RegistroPonto> RegistrosPonto { get; set; }
+    public DbSet<SolicitacaoAjuste> SolicitacoesAjuste { get; set; }
 }
