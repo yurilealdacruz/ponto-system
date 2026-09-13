@@ -1,4 +1,5 @@
 ﻿using Ponto.Mobile.Services;
+using System.Text.Json;
 
 namespace Ponto.Mobile;
 
@@ -32,8 +33,26 @@ public partial class MainPage : ContentPage
         // Faz a chamada real para o backend
         var resultado = await _apiService.RegistrarPontoAsync();
 
-        StatusLabel.TextColor = resultado.Contains("sucesso") ? Colors.Green : Colors.Red;
+        try
+        {
+            if (resultado.Trim().StartsWith("{"))
+            {
+                using var jsonDoc = JsonDocument.Parse(resultado);
+                if (jsonDoc.RootElement.TryGetProperty("mensagem", out var mensagemElement))
+                {
+                    resultado = mensagemElement.GetString() ?? resultado;
+                }
+            }
+        }
+        catch
+        {
+            // Se falhar ao processar o JSON (ex: erro de servidor), mantém o texto bruto original
+        }
+
+        // StringComparison.OrdinalIgnoreCase garante que vai identificar a palavra "sucesso" mesmo se vier com letra maiúscula
+        StatusLabel.TextColor = resultado.Contains("sucesso", StringComparison.OrdinalIgnoreCase) ? Colors.Green : Colors.Red;
         StatusLabel.Text = resultado;
+        
         BtnRegistrarPonto.IsEnabled = true;
     }
 }
