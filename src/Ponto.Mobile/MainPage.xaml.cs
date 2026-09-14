@@ -24,7 +24,7 @@ public partial class MainPage : ContentPage
         SaudacaoLabel.Text = $"Olá, {nomeFuncionario}!";
     }
 
-    private async void OnRegistrarPontoClicked(object sender, EventArgs e)
+   private async void OnRegistrarPontoClicked(object? sender, EventArgs e)
     {
         BtnRegistrarPonto.IsEnabled = false;
         StatusLabel.TextColor = Colors.Gray;

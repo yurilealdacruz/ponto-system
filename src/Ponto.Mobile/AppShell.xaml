@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:Ponto.Mobile"
     Shell.FlyoutBehavior="Disabled">
 
-    <!-- Define as abas inferiores -->
     <TabBar>
         <Tab Title="Bater Ponto">
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
@@ -14,6 +13,15 @@
         
         <Tab Title="Histórico">
             <ShellContent ContentTemplate="{DataTemplate local:HistoricoPage}" />
+        </Tab>
+
+        <!-- A ABA SECRETA AGORA É UM TAB E FICA AQUI DENTRO -->
+        <Tab x:Name="TabAdministracao"
+             x:FieldModifier="public"
+             Title="Admin" 
+             Icon="dotnet_bot.png"
+             IsVisible="False">
+            <ShellContent ContentTemplate="{DataTemplate local:PainelAdminPage}" />
         </Tab>
     </TabBar>
 
