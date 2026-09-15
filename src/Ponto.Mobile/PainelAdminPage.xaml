@@ -2,9 +2,49 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ponto.Mobile.PainelAdminPage"
-             Title="Painel de Administração">
-    
-    <VerticalStackLayout Padding="20">
-        <Label Text="Página do ADM em construção..." HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Painel de Administração"
+             BackgroundColor="#F5F5F5">
+             
+    <Grid RowDefinitions="Auto,*">
+        <Label Grid.Row="0" Text="Solicitações Pendentes" FontSize="22" FontAttributes="Bold" Margin="15" />
+        
+        <!-- Pull-to-refresh para o ADM atualizar a lista puxando para baixo -->
+        <RefreshView Grid.Row="1" x:Name="RefreshPendentes" Refreshing="OnRefreshPendentes">
+            <CollectionView x:Name="ListaPendentes" Margin="15">
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,15" Padding="15" BackgroundColor="White" Stroke="Transparent">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding FuncionarioNome}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding FuncionarioCpf, StringFormat='CPF: {0}'}" TextColor="Gray" FontSize="12"/>
+                                
+                                <!-- Mostra a data já convertida para o formato local -->
+                                <Label Text="{Binding DataHoraSugerida, StringFormat='Data Sugerida: {0:dd/MM/yyyy HH:mm}'}" TextColor="#4B0082" FontAttributes="Bold" Margin="0,5,0,0" />
+                                <Label Text="{Binding Justificativa, StringFormat='Motivo: {0}'}" FontAttributes="Italic" />
+                                
+                                <Button Text="Aprovar Ajuste" 
+                                        BackgroundColor="Green" 
+                                        TextColor="White" 
+                                        CornerRadius="8" 
+                                        Margin="0,10,0,0"
+                                        CommandParameter="{Binding Id}"
+                                        Clicked="OnAprovarClicked" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+                <!-- O que aparece quando não há pedidos -->
+                <CollectionView.EmptyView>
+                    <Label Text="Nenhuma solicitação pendente no momento." HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray" />
+                </CollectionView.EmptyView>
+                
+            </CollectionView>
+        </RefreshView>
+    </Grid>
 </ContentPage>
