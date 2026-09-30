@@ -45,32 +45,38 @@ public partial class HistoricoPage : ContentPage
 
             if (registros != null && registros.Any())
             {
+                // 1. CORREÇÃO DO FUSO HORÁRIO
+                foreach (var r in registros)
+                {
+                    // Força o C# a entender que a data do banco é UTC e converte para a hora do celular (-3h)
+                    r.DataHoraOficial = DateTime.SpecifyKind(r.DataHoraOficial, DateTimeKind.Utc).ToLocalTime();
+                }
+
+                // 2. AGRUPAMENTO E EXIBIÇÃO
                 var dadosAgrupados = registros
-                  .OrderBy(r => r.DataHoraOficial)
-                  .GroupBy(r => r.DataHoraOficial.ToLocalTime().Date)
-                  .Select(grupo => {
-                      var pontosDoDia = grupo.ToList();
-                      return new DiaTrabalho
-                      {
-                          DataOriginal = grupo.Key,
-                          // 1. CORREÇÃO DO FORMATO: Passa para o padrão 29/09/2026
-                          DataFormatada = grupo.Key.ToString("dd/MM/yyyy"),
-                          Ponto1 = pontosDoDia.Count > 0 ? pontosDoDia[0].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
-                          Ponto2 = pontosDoDia.Count > 1 ? pontosDoDia[1].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
-                          Ponto3 = pontosDoDia.Count > 2 ? pontosDoDia[2].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
-                          Ponto4 = pontosDoDia.Count > 3 ? pontosDoDia[3].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-"
-                      };
-                  })
-                  // 2. CORREÇÃO DA ORDENAÇÃO: Ordena pelo objeto DateTime (cronológico), não pelo texto
-                  .OrderByDescending(d => d.DataOriginal)
-                  .ToList();
+                    .OrderBy(r => r.DataHoraOficial)
+                    .GroupBy(r => r.DataHoraOficial.Date) // Como já convertemos, o dia agora está correto
+                    .Select(grupo => {
+                        var pontosDoDia = grupo.ToList();
+                        return new DiaTrabalho
+                        {
+                            DataOriginal = grupo.Key,
+                            DataFormatada = grupo.Key.ToString("dd/MM/yyyy"),
+                            // Removemos os ToLocalTime() daqui porque já fizemos no foreach
+                            Ponto1 = pontosDoDia.Count > 0 ? pontosDoDia[0].DataHoraOficial.ToString("HH:mm") : "-",
+                            Ponto2 = pontosDoDia.Count > 1 ? pontosDoDia[1].DataHoraOficial.ToString("HH:mm") : "-",
+                            Ponto3 = pontosDoDia.Count > 2 ? pontosDoDia[2].DataHoraOficial.ToString("HH:mm") : "-",
+                            Ponto4 = pontosDoDia.Count > 3 ? pontosDoDia[3].DataHoraOficial.ToString("HH:mm") : "-"
+                        };
+                    })
+                    .OrderByDescending(d => d.DataOriginal)
+                    .ToList();
 
                 ListaHistorico.ItemsSource = dadosAgrupados;
             }
         }
-        catch (Exception) // Removi o "ex" daqui para não dar warning de variável não usada
+        catch (Exception)
         {
-            // O .NET 10 pede para usar DisplayAlertAsync agora
             await DisplayAlertAsync("Erro", "Não foi possível carregar o histórico.", "OK");
         }
     }
