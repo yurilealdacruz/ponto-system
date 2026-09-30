@@ -58,4 +58,31 @@ public class FuncionariosController : ControllerBase
 
         return Ok(funcionario);
     }
+
+    [HttpGet("equipe-status")]
+    public async Task<IActionResult> GetEquipeComStatus()
+    {
+        // Busca todos os funcionários que NÃO são administradores (CargoId diferente de 1)
+        var equipe = await _context.Funcionarios
+            .Where(f => f.CargoId != 1 && f.Ativo)
+            .Select(f => new EquipeStatusDto
+            {
+                Id = f.Id,
+                Nome = f.Nome,
+                // Vai no banco de solicitações e vê se existe alguma "Pendente" para este funcionário
+                TemAjustePendente = _context.SolicitacoesAjuste
+                    .Any(s => s.FuncionarioId == f.Id && s.Status == "Pendente")
+            })
+            .ToListAsync();
+
+        return Ok(equipe);
+    }
+
+    // Coloque esta classe no final do arquivo, fora do Controller
+    public class EquipeStatusDto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public bool TemAjustePendente { get; set; }
+    }
 }

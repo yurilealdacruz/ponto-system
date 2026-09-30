@@ -24,9 +24,19 @@ public partial class HistoricoPage : ContentPage
 
     private async void OnSolicitarAjusteClicked(object? sender, EventArgs e)
     {
+        // NOVO: Verifica o dia do mês atual
+        int diaAtual = DateTime.Now.Day;
+
+        // Se for antes do dia 5 ou depois do dia 25, bloqueia.
+        if (diaAtual < 5 || diaAtual > 25)
+        {
+            await DisplayAlertAsync("Acesso Bloqueado", "Os ajustes de ponto só podem ser solicitados entre os dias 05 e 25 de cada mês.", "OK");
+            return; // Interrompe o código aqui, não abre a tela
+        }
+
+        // Se estiver no prazo, continua com o código original para abrir o modal
         if (sender is ImageButton button && button.CommandParameter is DateTime dataSelecionada)
         {
-            // Abre a tela de solicitação como um pop-up (Modal) por cima da tela atual
             await Navigation.PushModalAsync(new SolicitarAjustePage(dataSelecionada));
         }
     }
