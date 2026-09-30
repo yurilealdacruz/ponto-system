@@ -46,22 +46,24 @@ public partial class HistoricoPage : ContentPage
             if (registros != null && registros.Any())
             {
                 var dadosAgrupados = registros
-                    .OrderBy(r => r.DataHoraOficial)
-                    .GroupBy(r => r.DataHoraOficial.ToLocalTime().Date)
-                    .Select(grupo => {
-                        var pontosDoDia = grupo.ToList();
-                        return new DiaTrabalho
-                        {
-                            DataOriginal = grupo.Key,
-                            DataFormatada = grupo.Key.ToString("ddd, dd MMM"),
-                            Ponto1 = pontosDoDia.Count > 0 ? pontosDoDia[0].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
-                            Ponto2 = pontosDoDia.Count > 1 ? pontosDoDia[1].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
-                            Ponto3 = pontosDoDia.Count > 2 ? pontosDoDia[2].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
-                            Ponto4 = pontosDoDia.Count > 3 ? pontosDoDia[3].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-"
-                        };
-                    })
-                    .OrderByDescending(d => d.DataFormatada)
-                    .ToList();
+                  .OrderBy(r => r.DataHoraOficial)
+                  .GroupBy(r => r.DataHoraOficial.ToLocalTime().Date)
+                  .Select(grupo => {
+                      var pontosDoDia = grupo.ToList();
+                      return new DiaTrabalho
+                      {
+                          DataOriginal = grupo.Key,
+                          // 1. CORREÇÃO DO FORMATO: Passa para o padrão 29/09/2026
+                          DataFormatada = grupo.Key.ToString("dd/MM/yyyy"),
+                          Ponto1 = pontosDoDia.Count > 0 ? pontosDoDia[0].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
+                          Ponto2 = pontosDoDia.Count > 1 ? pontosDoDia[1].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
+                          Ponto3 = pontosDoDia.Count > 2 ? pontosDoDia[2].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-",
+                          Ponto4 = pontosDoDia.Count > 3 ? pontosDoDia[3].DataHoraOficial.ToLocalTime().ToString("HH:mm") : "-"
+                      };
+                  })
+                  // 2. CORREÇÃO DA ORDENAÇÃO: Ordena pelo objeto DateTime (cronológico), não pelo texto
+                  .OrderByDescending(d => d.DataOriginal)
+                  .ToList();
 
                 ListaHistorico.ItemsSource = dadosAgrupados;
             }

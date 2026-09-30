@@ -26,7 +26,7 @@ public class RegistrosPontoController : ControllerBase
             return BadRequest(new { mensagem = "Funcionário não encontrado ou inativo." });
         }
 
-            // NOVO: Busca o último ponto batido por este funcionário
+        // Busca o último ponto batido por este funcionário
         var ultimoPonto = await _context.RegistrosPonto
             .Where(r => r.FuncionarioId == dto.FuncionarioId)
             .OrderByDescending(r => r.DataHoraOficial)
@@ -42,11 +42,27 @@ public class RegistrosPontoController : ControllerBase
             }
         }
 
+        // ==========================================================
+        // NOVO: TRAVA DE 4 PONTOS POR DIA
+        // ==========================================================
+        var dataHoje = DateTime.UtcNow.Date;
+
+        int totalPontosHoje = await _context.RegistrosPonto
+            .Where(r => r.FuncionarioId == dto.FuncionarioId
+                     && r.DataHoraOficial.Date == dataHoje)
+            .CountAsync();
+
+        if (totalPontosHoje >= 4)
+        {
+            return BadRequest(new { mensagem = "Limite atingido: Você já registrou 4 pontos no dia de hoje." });
+        }
+        // ==========================================================
+
         // 2. Segurança: A data e hora são geradas pelo servidor, nunca pelo celular do usuário
         var novoPonto = new RegistroPonto
         {
             FuncionarioId = dto.FuncionarioId,
-            DataHoraOficial = DateTime.UtcNow, 
+            DataHoraOficial = DateTime.UtcNow,
             Latitude = dto.Latitude,
             Longitude = dto.Longitude,
             GPSMockado = dto.GPSMockado
@@ -55,9 +71,9 @@ public class RegistrosPontoController : ControllerBase
         _context.RegistrosPonto.Add(novoPonto);
         await _context.SaveChangesAsync();
 
-        return Ok(new 
-        { 
-            mensagem = "Ponto registrado com sucesso!", 
+        return Ok(new
+        {
+            mensagem = "Ponto registrado com sucesso!",
             dataHora = novoPonto.DataHoraOficial,
             funcionario = funcionario.Nome
         });
