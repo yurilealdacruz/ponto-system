@@ -8,11 +8,11 @@ Um aplicativo mobile completo desenvolvido em **.NET MAUI (C#)** focado na gest�
 
 | Login | Registro de Ponto | Histórico de Registros |
 | :---: | :---: | :---: |
-| <img src="./assets/login.jpg" width="200"/> | <img src="./assets/bater_ponto.png" width="200"/> | <img src="./assets/historico.png" width="200"/> |
+| <img src="./assets/login.jpg" width="200"/> | <img src="./assets/bater_ponto.jpg" width="200"/> | <img src="./assets/historico.jpg" width="200"/> |
 
 | Validação de Regra de Negócio | Solicitação de Ajuste | Painel Admin (Status Pendente) | Detalhes & Aprovação |
 | :---: | :---: | :---: | :---: |
-| <img src="./assets/bloqueio_ajuste.png" width="180"/> | <img src="./assets/solicitar_ajuste.png" width="180"/> | <img src="./assets/painel_admin.png" width="180"/> | <img src="./assets/detalhes_admin.png" width="180"/> |
+| <img src="./assets/bloqueio_ajuste.jpg" width="180"/> | <img src="./assets/solicitar_ajuste.jpg" width="180"/> | <img src="./assets/painel_admin.jpg" width="180"/> | <img src="./assets/detalhes_admin.jpg" width="180"/> |
 
 ---
 
