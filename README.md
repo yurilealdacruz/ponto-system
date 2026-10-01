@@ -1,6 +1,6 @@
 # ⏱️ Sistema de Controle de Ponto Mobile (.NET MAUI)
 
-Um aplicativo mobile completo desenvolvido em **.NET MAUI (C#)** focado na gestão de registros de ponto eletrônico e controle de equipe em tempo real[cite: 9, 11]. O sistema integra-se a uma API REST para gerenciamento de registros, solicitações de ajuste com regras de negócio e aprovação administrativa[cite: 12, 14, 16].
+Um aplicativo mobile completo desenvolvido em **.NET MAUI (C#)** focado na gestão de registros de ponto eletrônico e controle de equipe em tempo real. O sistema integra-se a uma API REST para gerenciamento de registros, solicitações de ajuste com regras de negócio e aprovação administrativa.
 
 ---
 
@@ -19,16 +19,16 @@ Um aplicativo mobile completo desenvolvido em **.NET MAUI (C#)** focado na gest�
 ## ✨ Funcionalidades Principais
 
 ### 👤 Visão do Colaborador
-* **Autenticação:** Login por CPF/ID e senha[cite: 10].
-* **Registro de Ponto:** Marcação rápida de entradas e saídas com confirmação visual do horário[cite: 12].
-* **Histórico Detalhado:** Agrupamento automático dos horários (Entrada 1, Saída 1, Entrada 2, Saída 2) organizados por data[cite: 12].
-* **Solicitação de Ajuste de Ponto:** Envio de justificativas ao RH para ajuste de horários retroativos[cite: 14].
-* **Regras de Negócio em Tempo Real:** Bloqueio automático de solicitações de ajuste fora da janela permitida (ex: liberado apenas entre os dias 05 e 25 de cada mês)[cite: 13].
+* **Autenticação:** Login por CPF/ID e senha.
+* **Registro de Ponto:** Marcação rápida de entradas e saídas com confirmação visual do horário.
+* **Histórico Detalhado:** Agrupamento automático dos horários (Entrada 1, Saída 1, Entrada 2, Saída 2) organizados por data.
+* **Solicitação de Ajuste de Ponto:** Envio de justificativas ao RH para ajuste de horários retroativos.
+* **Regras de Negócio em Tempo Real:** Bloqueio automático de solicitações de ajuste fora da janela permitida (ex: liberado apenas entre os dias 05 e 25 de cada mês).
 
 ### 🛡️ Visão do Administrador / Gestor
-* **Gestão de Equipe:** Listagem de colaboradores em formato de cards interativos[cite: 9].
-* **Sinalização Visual de Pendências:** Destaque em cor amarela (*Ajuste Pendente*) para colaboradores que possuem solicitações a serem analisadas[cite: 15].
-* **Análise e Aprovação:** Visualização completa da justificativa, data sugerida e histórico de pontos do funcionário com botão de aprovação em um clique[cite: 16].
+* **Gestão de Equipe:** Listagem de colaboradores em formato de cards interativos.
+* **Sinalização Visual de Pendências:** Destaque em cor amarela (*Ajuste Pendente*) para colaboradores que possuem solicitações a serem analisadas.
+* **Análise e Aprovação:** Visualização completa da justificativa, data sugerida e histórico de pontos do funcionário com botão de aprovação em um clique.
 
 ---
 
@@ -52,5 +52,5 @@ Um aplicativo mobile completo desenvolvido em **.NET MAUI (C#)** focado na gest�
 ### Passos
 1. **Clonar o repositório:**
    ```bash
-   git clone [https://github.com/seu-usuario/nome-do-repositorio.git](https://github.com/seu-usuario/nome-do-repositorio.git)
-   cd nome-do-repositorio
+   git clone [https://github.com/yurilealdacruz/ponto-system.git](https://github.com/yurilealdacruz/ponto-system.git)
+   cd ponto-system
