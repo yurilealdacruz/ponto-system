@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ponto.Mobile.DetalhesColaboradorPage"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- CARTÃO DE AJUSTE PENDENTE (Oculto por padrão) -->
+        <ContentView x:Name="ContainerPendencia" Grid.Row="0" IsVisible="False" Padding="15,15,15,0">
+            <Border BackgroundColor="#FFFACD" Stroke="#FFD700" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Solicitação de Ajuste Pendente" FontAttributes="Bold" FontSize="16" TextColor="#B8860B" />
+                    <Label x:Name="LabelDataSugerida" TextColor="#333" FontAttributes="Bold" />
+                    <Label x:Name="LabelJustificativa" TextColor="Gray" FontAttributes="Italic" />
+
+                    <Button x:Name="BtnAprovar" 
+                            Text="Aprovar Ajuste" 
+                            BackgroundColor="Green" 
+                            TextColor="White" 
+                            CornerRadius="8" 
+                            Margin="0,10,0,0"
+                            Clicked="OnAprovarClicked" />
+                </VerticalStackLayout>
+            </Border>
+        </ContentView>
+
+        <!-- HISTÓRICO DO COLABORADOR -->
+        <VerticalStackLayout Grid.Row="1" Padding="15">
+            <Label Text="Histórico de Ponto" FontSize="18" FontAttributes="Bold" Margin="0,10,0,10" />
+
+            <CollectionView x:Name="ListaHistorico">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*" Padding="0,0,0,10">
+                        <Label Text="Data" FontAttributes="Bold" Grid.Column="0" />
+                        <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
+                        <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center"/>
+                        <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center"/>
+                        <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center"/>
+                    </Grid>
+                </CollectionView.Header>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*" Padding="0,12">
+                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="Gray" />
+                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" />
+                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" />
+                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" />
+                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

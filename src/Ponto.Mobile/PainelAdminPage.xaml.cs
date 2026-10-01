@@ -9,79 +9,50 @@ public partial class PainelAdminPage : ContentPage
         InitializeComponent();
     }
 
-    // Carrega a lista automaticamente sempre que o ADM abrir esta aba
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await CarregarPendentes();
+        await CarregarEquipe();
     }
 
-    private async void OnRefreshPendentes(object? sender, EventArgs e)
+    private async void OnRefreshEquipe(object? sender, EventArgs e)
     {
-        await CarregarPendentes();
-        RefreshPendentes.IsRefreshing = false; // Para a animação de carregamento
+        await CarregarEquipe();
+        RefreshEquipe.IsRefreshing = false;
     }
 
-    private async Task CarregarPendentes()
+    private async Task CarregarEquipe()
     {
         try
         {
             using var client = new HttpClient();
-            var pendentes = await client.GetFromJsonAsync<List<SolicitacaoPendenteDto>>("https://ponto-system.onrender.com/api/SolicitacoesAjuste/pendentes");
-            
-            ListaPendentes.ItemsSource = pendentes;
+            // Chama a nova rota da API
+            var equipe = await client.GetFromJsonAsync<List<EquipeStatusDto>>("https://ponto-system.onrender.com/api/Funcionarios/equipe-status");
+
+            ListaEquipe.ItemsSource = equipe;
         }
         catch (Exception)
         {
-            await DisplayAlertAsync("Erro", "Não foi possível carregar as solicitações.", "OK");
+            await DisplayAlertAsync("Erro", "Não foi possível carregar a lista da equipe.", "OK");
         }
     }
 
-    private async void OnAprovarClicked(object? sender, EventArgs e)
+    // Ação ao clicar no card de um funcionário
+    private async void OnColaboradorTapped(object? sender, TappedEventArgs e)
     {
-        if (sender is Button btn && btn.CommandParameter is int solicitacaoId)
+        if (e.Parameter is EquipeStatusDto colaborador)
         {
-            bool confirmar = await DisplayAlertAsync("Confirmação", "Deseja realmente aprovar e inserir este ajuste de ponto?", "Sim", "Cancelar");
-            if (!confirmar) return;
-
-            btn.IsEnabled = false;
-            btn.Text = "Aprovando...";
-
-            try
-            {
-                using var client = new HttpClient();
-                // Chama a rota de aprovação que altera a tabela RegistrosPonto
-                var response = await client.PostAsync($"https://ponto-system.onrender.com/api/SolicitacoesAjuste/{solicitacaoId}/aprovar", null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    await DisplayAlertAsync("Sucesso", "Ponto ajustado com sucesso!", "OK");
-                    await CarregarPendentes(); // Atualiza a lista, o card aprovado vai sumir
-                }
-                else
-                {
-                    await DisplayAlertAsync("Erro", "Falha ao aprovar a solicitação.", "OK");
-                    btn.IsEnabled = true;
-                    btn.Text = "Aprovar Ajuste";
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlertAsync("Erro", "Erro de conexão com o servidor.", "OK");
-                btn.IsEnabled = true;
-                btn.Text = "Aprovar Ajuste";
-            }
+            // O próximo passo será criar a DetalhesColaboradorPage
+            await Navigation.PushAsync(new DetalhesColaboradorPage(colaborador.Id, colaborador.Nome));
+            
         }
     }
 }
 
-// Objeto para espelhar a resposta do back-end
-public class SolicitacaoPendenteDto
+// DTO espelhando o que a API envia
+public class EquipeStatusDto
 {
     public int Id { get; set; }
-    public string FuncionarioNome { get; set; } = string.Empty;
-    public string FuncionarioCpf { get; set; } = string.Empty;
-    public DateTime DataHoraSugerida { get; set; }
-    public string Justificativa { get; set; } = string.Empty;
-    public DateTime DataSolicitacao { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public bool TemAjustePendente { get; set; }
 }
