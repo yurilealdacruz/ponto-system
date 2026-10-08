@@ -103,6 +103,27 @@ public class RegistrosPontoController : ControllerBase
 
         return Ok(registros);
     }
+
+
+    [HttpGet("funcionario/{id}/pdf")]
+    public async Task<IActionResult> ExportarPdfMes(int id, [FromQuery] int mes, [FromQuery] int ano)
+    {
+        // 1. Busque o funcionário no banco
+        var funcionario = await _context.Funcionarios.FindAsync(id);
+
+        // 2. Busque os registros desse mês específico
+        var registros = await _context.RegistrosPonto
+            .Where(r => r.FuncionarioId == id && r.DataHoraOficial.Month == mes && r.DataHoraOficial.Year == ano)
+            .OrderBy(r => r.DataHoraOficial)
+            .ToListAsync();
+
+        // 3. Gere o arquivo
+        var pdfService = new RelatorioPdfService();
+        var pdfBytes = pdfService.GerarRelatorioMensal(funcionario.Nome, $"{mes:D2}/{ano}", registros);
+
+        // 4. Retorne como download
+        return File(pdfBytes, "application/pdf", $"Controlo_Assiduidade_{funcionario.Nome.Replace(" ", "_")}_{mes}_{ano}.pdf");
+    }
 }
 
 // Objeto auxiliar (DTO) para receber os dados do app mobile com segurança

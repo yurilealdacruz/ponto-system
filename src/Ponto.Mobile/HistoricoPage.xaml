@@ -4,6 +4,8 @@
              x:Class="Ponto.Mobile.HistoricoPage"
              Title="Meu Histórico">
 
+
+    <Button BackgroundColor="#4A148C" Clicked="OnExportarPdfClicked" IconImageSource="pdf_icon.png" Margin="0,15,0,0" Text="Exportar PDF do Mês" TextColor="White"/>
     <RefreshView x:Name="AtualizarView" Refreshing="OnRefresh">
         <CollectionView x:Name="ListaHistorico" Margin="15">
     

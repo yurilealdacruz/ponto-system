@@ -15,6 +15,46 @@ public partial class HistoricoPage : ContentPage
         await CarregarHistorico();
     }
 
+    private async void OnExportarPdfClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            // Variáveis de exemplo (você pegará isso do picker ou do contexto atual)
+            int mesAtual = DateTime.Now.Month;
+            int anoAtual = DateTime.Now.Year;
+
+            // Pega o ID real do usuário logado no celular
+            int funcionarioId = Preferences.Default.Get("FuncionarioId", 0);
+            if (funcionarioId == 0) return;
+
+            // URL corrigida apontando para o seu Render e para o Controller correto
+            string baseUrl = "https://ponto-system.onrender.com";
+            string url = $"{baseUrl}/api/RegistrosPonto/funcionario/{funcionarioId}/pdf?mes={mesAtual}&ano={anoAtual}";
+
+            using var client = new HttpClient();
+
+            byte[] pdfBytes = await client.GetByteArrayAsync(url);
+
+            // Define o caminho no cache do celular
+            string nomeArquivo = $"Controlo_Assiduidade_{mesAtual}_{anoAtual}.pdf";
+            string caminhoLocal = Path.Combine(FileSystem.CacheDirectory, nomeArquivo);
+
+            // Salva o PDF no aparelho
+            await File.WriteAllBytesAsync(caminhoLocal, pdfBytes);
+
+            // Chama a tela nativa do Android/iOS para compartilhar (WhatsApp, Email, etc)
+            await Share.Default.RequestAsync(new ShareFileRequest
+            {
+                Title = "Enviar Relatório de Ponto",
+                File = new ShareFile(caminhoLocal)
+            });
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", $"Não foi possível exportar o PDF: {ex.Message}", "OK");
+        }
+    }
+
     // Adicionei a interrogação (object? sender) para agradar o compilador do .NET 10
     private async void OnRefresh(object? sender, EventArgs e)
     {
