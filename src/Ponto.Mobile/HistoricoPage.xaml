@@ -4,23 +4,27 @@
              x:Class="Ponto.Mobile.HistoricoPage"
              Title="Meu Histórico">
 
+    <!-- O Grid permite colocar o Botão em cima (Auto) e a Lista ocupando o resto (*) -->
+    <Grid RowDefinitions="Auto, *">
 
-    <Button BackgroundColor="#4A148C" Clicked="OnExportarPdfClicked" IconImageSource="pdf_icon.png" Margin="0,15,0,0" Text="Exportar PDF do Mês" TextColor="White"/>
-    <RefreshView x:Name="AtualizarView" Refreshing="OnRefresh">
-        <CollectionView x:Name="ListaHistorico" Margin="15">
-    
+        <!-- CORRIGIDO: ImageSource em vez de IconImageSource -->
+        <Button Grid.Row="0" BackgroundColor="#4A148C" Clicked="OnExportarPdfClicked" 
+                ImageSource="pdf_icon.png" Margin="15,15,15,0" 
+                Text="Exportar PDF do Mês" TextColor="White"/>
+
+        <RefreshView Grid.Row="1" x:Name="AtualizarView" Refreshing="OnRefresh">
+            <CollectionView x:Name="ListaHistorico" Margin="15">
+
                 <CollectionView.Header>
-                    <!-- Adicionada uma coluna extra de tamanho 30 no final -->
                     <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*, 30" Padding="0,0,0,15">
                         <Label Text="Data" FontAttributes="Bold" Grid.Column="0" />
                         <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
                         <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center"/>
                         <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center"/>
                         <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center"/>
-                        <!-- Espaço vazio para alinhar com o ícone abaixo -->
                     </Grid>
                 </CollectionView.Header>
-                
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*, 30" Padding="0,12">
@@ -29,8 +33,7 @@
                             <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" />
                             <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" />
                             <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" />
-                            
-                            <!-- Botão de Lápis -->
+
                             <ImageButton Grid.Column="5" 
                                         Source="dotnet_bot.png" 
                                         HeightRequest="20" 
@@ -41,9 +44,7 @@
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                
             </CollectionView>
-            
-    </RefreshView>
-
+        </RefreshView>
+    </Grid>
 </ContentPage>

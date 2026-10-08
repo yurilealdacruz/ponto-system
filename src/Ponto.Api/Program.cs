@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Ponto.Data;
+using QuestPDF.Infrastructure;
+
+// Adicione isso antes do builder.Build()
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
