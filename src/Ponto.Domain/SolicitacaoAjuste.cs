@@ -22,4 +22,8 @@ public class SolicitacaoAjuste
     public string Status { get; set; } = "Pendente"; 
     
     public DateTime DataSolicitacao { get; set; } = DateTime.UtcNow;
+
+    public string TipoBatida { get; set; }
+
+
 }

@@ -19,6 +19,21 @@
                 <Label Text="Data Sugerida:" FontAttributes="Bold" />
                 <DatePicker x:Name="DataAjustePicker" Format="dd/MM/yyyy" />
 
+                <!-- Adicione este bloco antes da Hora Correta -->
+                <Label Text="Qual ponto deseja ajustar?" FontAttributes="Bold" Margin="0,10,0,5" />
+                <Border Stroke="LightGray" StrokeThickness="1" BackgroundColor="#F5F5F5" Padding="5">
+                    <Picker x:Name="PickerTipoPonto" Title="Selecione qual batida..." TextColor="Black">
+                        <Picker.Items>
+                            <x:String>Entrada 1 (Início do Turno)</x:String>
+                            <x:String>Saída 1 (Ida para o Almoço)</x:String>
+                            <x:String>Entrada 2 (Volta do Almoço)</x:String>
+                            <x:String>Saída 2 (Fim do Turno)</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Border>
+
+                <!-- O restante continua igual (Hora Correta, Justificativa, etc) -->
+
                 <Label Text="Hora Correta:" FontAttributes="Bold" />
                 <TimePicker x:Name="HoraAjustePicker" Format="HH:mm" />
 

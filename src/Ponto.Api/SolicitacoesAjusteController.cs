@@ -102,4 +102,5 @@ public class SolicitacaoAjusteDto
     public int? RegistroPontoId { get; set; }
     public DateTime DataHoraSugerida { get; set; }
     public string Justificativa { get; set; } = string.Empty;
+    public string TipoBatida { get; set; }
 }
