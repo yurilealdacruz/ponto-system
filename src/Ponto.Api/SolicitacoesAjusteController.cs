@@ -28,11 +28,16 @@ public class SolicitacoesAjusteController : ControllerBase
             if (string.IsNullOrEmpty(dto.TipoBatida))
                 return BadRequest(new { mensagem = "O tipo de batida é obrigatório." });
 
+            // Garante que a data enviada pelo app seja convertida para UTC de forma segura
+            DateTime dataUtc = dto.DataHoraSugerida.Kind == DateTimeKind.Utc
+                ? dto.DataHoraSugerida
+                : DateTime.SpecifyKind(dto.DataHoraSugerida, DateTimeKind.Local).ToUniversalTime();
+
             var solicitacao = new SolicitacaoAjuste
             {
                 FuncionarioId = dto.FuncionarioId,
                 RegistroPontoId = dto.RegistroPontoId,
-                DataHoraSugerida = dto.DataHoraSugerida,
+                DataHoraSugerida = dataUtc, // <--- Utiliza a data em UTC
                 TipoBatida = dto.TipoBatida,
                 Justificativa = dto.Justificativa,
                 Status = "Pendente",
