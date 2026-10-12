@@ -20,30 +20,36 @@ public class SolicitacoesAjusteController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CriarSolicitacao([FromBody] SolicitacaoAjusteDto dto)
     {
-        if (dto == null)
-            return BadRequest(new { mensagem = "Dados inválidos." });
-
-        // Validação defensiva para garantir que o TipoBatida não vai vazio
-        if (string.IsNullOrEmpty(dto.TipoBatida))
-            return BadRequest(new { mensagem = "O tipo de batida é obrigatório." });
-
-        var solicitacao = new SolicitacaoAjuste
+        try
         {
-            FuncionarioId = dto.FuncionarioId,
-            RegistroPontoId = dto.RegistroPontoId,
-            DataHoraSugerida = dto.DataHoraSugerida,
-            TipoBatida = dto.TipoBatida, // Mapeamento explícito do tipo de batida selecionado
-            Justificativa = dto.Justificativa,
-            Status = "Pendente",
-            DataSolicitacao = DateTime.UtcNow
-        };
+            if (dto == null)
+                return BadRequest(new { mensagem = "Dados inválidos." });
 
-        _context.SolicitacoesAjuste.Add(solicitacao);
-        await _context.SaveChangesAsync();
+            if (string.IsNullOrEmpty(dto.TipoBatida))
+                return BadRequest(new { mensagem = "O tipo de batida é obrigatório." });
 
-        return Ok(new { mensagem = "Solicitação criada com sucesso!" });
+            var solicitacao = new SolicitacaoAjuste
+            {
+                FuncionarioId = dto.FuncionarioId,
+                RegistroPontoId = dto.RegistroPontoId,
+                DataHoraSugerida = dto.DataHoraSugerida,
+                TipoBatida = dto.TipoBatida,
+                Justificativa = dto.Justificativa,
+                Status = "Pendente",
+                DataSolicitacao = DateTime.UtcNow
+            };
+
+            _context.SolicitacoesAjuste.Add(solicitacao);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { mensagem = "Solicitação criada com sucesso!" });
+        }
+        catch (Exception ex)
+        {
+            // Devolve o erro detalhado para o app exibir na tela em vez de dar 500 genérico
+            return StatusCode(500, new { mensagem = ex.Message, detalhe = ex.InnerException?.Message });
+        }
     }
-
     // DTO correspondente que recebe os dados do app
 
 

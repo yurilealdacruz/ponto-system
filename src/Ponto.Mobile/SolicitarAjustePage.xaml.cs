@@ -70,15 +70,16 @@ public partial class SolicitarAjustePage : ContentPage
             }
             else
             {
-                // CAPTURA A MENSAGEM EXATA DA API
-                string erroDetalhe = await response.Content.ReadAsStringAsync();
-                await DisplayAlertAsync("Erro da API", $"Detalhe: {erroDetalhe}", "OK");
+                // Mostra o Código de Status HTTP (Ex: 400, 422, 500) e o texto bruto
+                string codigoStatus = ((int)response.StatusCode).ToString();
+                string erroBruto = await response.Content.ReadAsStringAsync();
+
+                await DisplayAlertAsync("Erro HTTP", "Status: " + codigoStatus + "\nCorpo: " + erroBruto, "OK");
             }
         }
         catch (Exception ex)
         {
-            // CAPTURA EXCEÇÕES DE REDE OU CONVERSÃO
-            await DisplayAlertAsync("Erro de Exceção", $"Erro: {ex.Message}", "OK");
+            await DisplayAlertAsync("Exceção", "Erro local: " + ex.Message, "OK");
         }
     }
 }
