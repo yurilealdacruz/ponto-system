@@ -21,14 +21,18 @@ public class SolicitacoesAjusteController : ControllerBase
     public async Task<IActionResult> CriarSolicitacao([FromBody] SolicitacaoAjusteDto dto)
     {
         if (dto == null)
-            return BadRequest("Dados inválidos.");
+            return BadRequest(new { mensagem = "Dados inválidos." });
+
+        // Validação defensiva para garantir que o TipoBatida não vai vazio
+        if (string.IsNullOrEmpty(dto.TipoBatida))
+            return BadRequest(new { mensagem = "O tipo de batida é obrigatório." });
 
         var solicitacao = new SolicitacaoAjuste
         {
             FuncionarioId = dto.FuncionarioId,
             RegistroPontoId = dto.RegistroPontoId,
             DataHoraSugerida = dto.DataHoraSugerida,
-            TipoBatida = dto.TipoBatida, // <--- Garantir que este campo é mapeado aqui
+            TipoBatida = dto.TipoBatida, // Mapeamento explícito do tipo de batida selecionado
             Justificativa = dto.Justificativa,
             Status = "Pendente",
             DataSolicitacao = DateTime.UtcNow
@@ -41,7 +45,7 @@ public class SolicitacoesAjusteController : ControllerBase
     }
 
     // DTO correspondente que recebe os dados do app
-  
+
 
     // 2. ADMINISTRADOR: Lista todos os pedidos pendentes com CPF e Nome
     [HttpGet("pendentes")]
@@ -104,13 +108,12 @@ public class SolicitacoesAjusteController : ControllerBase
 
 }
 
-// Objeto para receber os dados do MAUI
+/// Objeto DTO atualizado para garantir a leitura correta dos campos vindos do MAUI
 public class SolicitacaoAjusteDto
 {
     public int FuncionarioId { get; set; }
     public int? RegistroPontoId { get; set; }
     public DateTime DataHoraSugerida { get; set; }
     public string Justificativa { get; set; } = string.Empty;
-    public string TipoBatida { get; set; }
-
+    public string TipoBatida { get; set; } = string.Empty;
 }
