@@ -6,6 +6,43 @@
 
     <Grid RowDefinitions="Auto, *">
 
+        <StackLayout Padding="15" Spacing="10">
+            <Label Text="Exportar Espelho de Ponto" FontAttributes="Bold" FontSize="16" />
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                <!-- Picker de Mês -->
+                <Picker x:Name="PickerMes" Title="Selecione o Mês" Grid.Column="0">
+                    <Picker.Items>
+                        <x:String>Janeiro</x:String>
+                        <x:String>Fevereiro</x:String>
+                        <x:String>Março</x:String>
+                        <x:String>Abril</x:String>
+                        <x:String>Maio</x:String>
+                        <x:String>Junho</x:String>
+                        <x:String>Julho</x:String>
+                        <x:String>Agosto</x:String>
+                        <x:String>Setembro</x:String>
+                        <x:String>Outubro</x:String>
+                        <x:String>Novembro</x:String>
+                        <x:String>Dezembro</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <!-- Picker de Ano -->
+                <Picker x:Name="PickerAno" Title="Ano" Grid.Column="1">
+                    <Picker.Items>
+                        <x:String>2025</x:String>
+                        <x:String>2026</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Grid>
+
+            <Button Text="Baixar Relatório PDF" 
+            BackgroundColor="#4A148C" 
+            TextColor="White" 
+            Clicked="OnGerarPdfAdminClicked" />
+        </StackLayout>
+
         <!-- CARTÃO DE AJUSTE PENDENTE (Oculto por padrão) -->
         <ContentView x:Name="ContainerPendencia" Grid.Row="0" IsVisible="False" Padding="15,15,15,0">
             <Border BackgroundColor="#FFFACD" Stroke="#FFD700" Padding="15">

@@ -20,6 +20,46 @@ public partial class DetalhesColaboradorPage : ContentPage
         await CarregarDados();
     }
 
+    private async void OnGerarPdfAdminClicked(object sender, EventArgs e)
+    {
+        // 1. Validações de seleção de mês e ano
+        if (PickerMes.SelectedIndex == -1 || PickerAno.SelectedIndex == -1)
+        {
+            await DisplayAlertAsync("Atenção", "Selecione o mês e o ano desejados.", "OK");
+            return;
+        }
+
+        int mes = PickerMes.SelectedIndex + 1; // 1 a 12
+        int ano = int.Parse(PickerAno.SelectedItem.ToString());
+
+        // Supondo que você tenha a variável do ID do funcionário nesta página (ex: _funcionarioId)
+        int funcionarioId = _funcionarioId;
+
+        string url = $"https://ponto-system.onrender.com/api/RegistrosPonto/admin/relatorio-pdf?funcionarioId={funcionarioId}&mes={mes}&ano={ano}";
+
+        try
+        {
+            using var client = new HttpClient();
+            byte[] pdfBytes = await client.GetByteArrayAsync(url);
+
+            string nomeArquivo = $"Relatorio_Ponto_{funcionarioId}_{mes}_{ano}.pdf";
+            string caminhoLocal = Path.Combine(FileSystem.CacheDirectory, nomeArquivo);
+
+            await File.WriteAllBytesAsync(caminhoLocal, pdfBytes);
+
+            // Abre o menu nativo de compartilhar/salvar/abrir PDF
+            await Share.Default.RequestAsync(new ShareFileRequest
+            {
+                Title = "Enviar Relatório de Ponto",
+                File = new ShareFile(caminhoLocal)
+            });
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Erro", $"Falha ao baixar o PDF: {ex.Message}", "OK");
+        }
+    }
+
     private async Task CarregarDados()
     {
         try

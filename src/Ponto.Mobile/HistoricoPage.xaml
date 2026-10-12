@@ -4,15 +4,9 @@
              x:Class="Ponto.Mobile.HistoricoPage"
              Title="Meu Histórico">
 
-    <!-- O Grid permite colocar o Botão em cima (Auto) e a Lista ocupando o resto (*) -->
-    <Grid RowDefinitions="Auto, *">
-
-        <!-- CORRIGIDO: ImageSource em vez de IconImageSource -->
-        <Button Grid.Row="0" BackgroundColor="#4A148C" Clicked="OnExportarPdfClicked" 
-                ImageSource="pdf_icon.png" Margin="15,15,15,0" 
-                Text="Exportar PDF do Mês" TextColor="White"/>
-
-        <RefreshView Grid.Row="1" x:Name="AtualizarView" Refreshing="OnRefresh">
+    <!-- Grid simplificado sem o botão de exportar PDF -->
+    <Grid RowDefinitions="*">
+        <RefreshView Grid.Row="0" x:Name="AtualizarView" Refreshing="OnRefresh">
             <CollectionView x:Name="ListaHistorico" Margin="15">
 
                 <CollectionView.Header>

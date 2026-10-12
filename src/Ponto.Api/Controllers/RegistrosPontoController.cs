@@ -105,22 +105,23 @@ public class RegistrosPontoController : ControllerBase
     }
 
 
-    [HttpGet("funcionario/{id}/pdf")]
-    public async Task<IActionResult> ExportarPdfMes(int id, [FromQuery] int mes, [FromQuery] int ano)
+    [HttpGet("admin/relatorio-pdf")]
+    public async Task<IActionResult> GerarRelatorioPdfAdmin([FromQuery] int funcionarioId, [FromQuery] int mes, [FromQuery] int ano)
     {
-        var funcionario = await _context.Funcionarios.FindAsync(id);
+        var funcionario = await _context.Funcionarios.FindAsync(funcionarioId);
 
         if (funcionario == null)
-            return NotFound();
+            return NotFound(new { mensagem = "Funcionário não encontrado." });
 
+        // Busca todos os registros do mês/ano informados
         var registros = await _context.RegistrosPonto
-            .Where(r => r.FuncionarioId == id && r.DataHoraOficial.Month == mes && r.DataHoraOficial.Year == ano)
+            .Where(r => r.FuncionarioId == funcionarioId
+                     && r.DataHoraOficial.Month == mes
+                     && r.DataHoraOficial.Year == ano)
             .OrderBy(r => r.DataHoraOficial)
             .ToListAsync();
 
-        // =======================================================
-        // NOVO: Agrupa os registros em 4 colunas para o relatório
-        // =======================================================
+        // Agrupa as batidas por dia para montar as 4 colunas da folha de ponto
         var diasTrabalhados = registros
             .GroupBy(r => r.DataHoraOficial.Date)
             .Select(grupo => {
@@ -138,7 +139,8 @@ public class RegistrosPontoController : ControllerBase
         var pdfService = new RelatorioPdfService();
         var pdfBytes = pdfService.GerarRelatorioMensal(funcionario.Nome, $"{mes:D2}/{ano}", diasTrabalhados);
 
-        return File(pdfBytes, "application/pdf", $"Controlo_Assiduidade_{funcionario.Nome.Replace(" ", "_")}_{mes}_{ano}.pdf");
+        string nomeArquivo = $"Relatorio_Ponto_{funcionario.Nome.Replace(" ", "_")}_{mes:D2}_{ano}.pdf";
+        return File(pdfBytes, "application/pdf", nomeArquivo);
     }
 }
 
