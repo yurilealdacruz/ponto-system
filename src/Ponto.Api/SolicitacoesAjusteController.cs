@@ -20,11 +20,15 @@ public class SolicitacoesAjusteController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CriarSolicitacao([FromBody] SolicitacaoAjusteDto dto)
     {
+        if (dto == null)
+            return BadRequest("Dados inválidos.");
+
         var solicitacao = new SolicitacaoAjuste
         {
             FuncionarioId = dto.FuncionarioId,
             RegistroPontoId = dto.RegistroPontoId,
-            DataHoraSugerida = dto.DataHoraSugerida.ToUniversalTime(),
+            DataHoraSugerida = dto.DataHoraSugerida,
+            TipoBatida = dto.TipoBatida, // <--- Garantir que este campo é mapeado aqui
             Justificativa = dto.Justificativa,
             Status = "Pendente",
             DataSolicitacao = DateTime.UtcNow
@@ -33,8 +37,11 @@ public class SolicitacoesAjusteController : ControllerBase
         _context.SolicitacoesAjuste.Add(solicitacao);
         await _context.SaveChangesAsync();
 
-        return Ok(new { mensagem = "Solicitação enviada para análise." });
+        return Ok(new { mensagem = "Solicitação criada com sucesso!" });
     }
+
+    // DTO correspondente que recebe os dados do app
+  
 
     // 2. ADMINISTRADOR: Lista todos os pedidos pendentes com CPF e Nome
     [HttpGet("pendentes")]
@@ -93,6 +100,8 @@ public class SolicitacoesAjusteController : ControllerBase
 
         return Ok(new { mensagem = "Ajuste aprovado e ponto atualizado com sucesso." });
     }
+
+
 }
 
 // Objeto para receber os dados do MAUI
@@ -103,4 +112,5 @@ public class SolicitacaoAjusteDto
     public DateTime DataHoraSugerida { get; set; }
     public string Justificativa { get; set; } = string.Empty;
     public string TipoBatida { get; set; }
+
 }

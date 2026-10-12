@@ -70,17 +70,15 @@ public partial class SolicitarAjustePage : ContentPage
             }
             else
             {
-                await DisplayAlertAsync("Erro", "Falha ao enviar a solicitação. Tente novamente.", "OK");
+                // CAPTURA A MENSAGEM EXATA DA API
+                string erroDetalhe = await response.Content.ReadAsStringAsync();
+                await DisplayAlertAsync("Erro da API", $"Detalhe: {erroDetalhe}", "OK");
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            await DisplayAlertAsync("Erro", "Erro de ligação ao servidor.", "OK");
-        }
-        finally
-        {
-            BtnEnviarSolicitacao.IsEnabled = true;
-            BtnEnviarSolicitacao.Text = "Enviar Solicitação";
+            // CAPTURA EXCEÇÕES DE REDE OU CONVERSÃO
+            await DisplayAlertAsync("Erro de Exceção", $"Erro: {ex.Message}", "OK");
         }
     }
 }
