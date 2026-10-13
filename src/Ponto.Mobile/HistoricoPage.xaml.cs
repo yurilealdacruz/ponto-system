@@ -86,33 +86,47 @@ public partial class HistoricoPage : ContentPage
         try
         {
             int funcionarioId = Preferences.Default.Get("FuncionarioId", 0);
-            if (funcionarioId == 0) return;
+            if (funcionarioId == 0)
+            {
+                await DisplayAlert("Aviso", "ID do funcionário não encontrado nas preferências.", "OK");
+                return;
+            }
 
             string apiUrl = $"https://ponto-system.onrender.com/api/RegistrosPonto/funcionario/{funcionarioId}";
 
             using var client = new HttpClient();
-            var registros = await client.GetFromJsonAsync<List<RegistroPontoResponse>>(apiUrl);
+
+            // Faz o GET e pega o texto bruto para sabermos exatamente o que a API respondeu
+            string jsonResponse = await client.GetStringAsync(apiUrl);
+
+            // Se a resposta vier vazia ou apenas com []
+            if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse == "[]")
+            {
+                await DisplayAlert("Depuração", $"A API retornou vazio para o FuncionarioId: {funcionarioId}", "OK");
+                return;
+            }
+
+            var registros = System.Text.Json.JsonSerializer.Deserialize<List<RegistroPontoResponse>>(jsonResponse, new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
             if (registros != null && registros.Any())
             {
-                // 1. CORREÇÃO DO FUSO HORÁRIO
                 foreach (var r in registros)
                 {
-                    // Força o C# a entender que a data do banco é UTC e converte para a hora do celular (-3h)
                     r.DataHoraOficial = DateTime.SpecifyKind(r.DataHoraOficial, DateTimeKind.Utc).ToLocalTime();
                 }
 
-                // 2. AGRUPAMENTO E EXIBIÇÃO
                 var dadosAgrupados = registros
                     .OrderBy(r => r.DataHoraOficial)
-                    .GroupBy(r => r.DataHoraOficial.Date) // Como já convertemos, o dia agora está correto
+                    .GroupBy(r => r.DataHoraOficial.Date)
                     .Select(grupo => {
                         var pontosDoDia = grupo.ToList();
                         return new DiaTrabalho
                         {
                             DataOriginal = grupo.Key,
                             DataFormatada = grupo.Key.ToString("dd/MM/yyyy"),
-                            // Removemos os ToLocalTime() daqui porque já fizemos no foreach
                             Ponto1 = pontosDoDia.Count > 0 ? pontosDoDia[0].DataHoraOficial.ToString("HH:mm") : "-",
                             Ponto2 = pontosDoDia.Count > 1 ? pontosDoDia[1].DataHoraOficial.ToString("HH:mm") : "-",
                             Ponto3 = pontosDoDia.Count > 2 ? pontosDoDia[2].DataHoraOficial.ToString("HH:mm") : "-",
@@ -124,13 +138,18 @@ public partial class HistoricoPage : ContentPage
 
                 ListaHistorico.ItemsSource = dadosAgrupados;
             }
+            else
+            {
+                await DisplayAlert("Depuração", $"Nenhum registo encontrado na lista para o ID: {funcionarioId}", "OK");
+            }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            await DisplayAlertAsync("Erro", "Não foi possível carregar o histórico.", "OK");
+            await DisplayAlert("Erro de Diagnóstico", $"Detalhe: {ex.Message}", "OK");
         }
     }
 }
+
 
 
 
