@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Ponto.Domain\Ponto.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\downloads\" />
+  </ItemGroup>
+
 </Project>

@@ -14,13 +14,17 @@ public partial class MainPage : ContentPage
         _apiService = apiService;
     }
 
-    protected override void OnAppearing()
+    // CORRIGIDO: Adicionado o modificador "async" para permitir o uso de "await"
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        
+
+        // Agora o await funciona corretamente
+        await VerificarAtualizacaoAsync();
+
         // Puxa o nome que foi salvo no login (se não achar nada, usa "Colaborador")
         string nomeFuncionario = Preferences.Default.Get("FuncionarioNome", "Colaborador");
-        
+
         // Atualiza a interface
         SaudacaoLabel.Text = $"Olá, {nomeFuncionario}!";
     }
@@ -48,7 +52,7 @@ public partial class MainPage : ContentPage
 
                     if (atualizar)
                     {
-                        // Abre o link de download do APK no navegador nativo do telemóvel para descarregar e instalar
+                        // Abre o link de download do APK no navegador nativo do telemóvel
                         await Launcher.OpenAsync(new Uri(resposta.UrlDownload));
                     }
                 }
@@ -56,10 +60,9 @@ public partial class MainPage : ContentPage
         }
         catch
         {
-            // Se falhar ao checar (ex: sem internet), o app segue normalmente sem incomodar o utilizador
+            // Se falhar ao checar (ex: sem internet), o app segue normalmente
         }
     }
-
 
     private async void OnRegistrarPontoClicked(object? sender, EventArgs e)
     {
@@ -67,7 +70,6 @@ public partial class MainPage : ContentPage
         StatusLabel.TextColor = Colors.Gray;
         StatusLabel.Text = "Registrando ponto...";
 
-        // Faz a chamada real para o backend
         var resultado = await _apiService.RegistrarPontoAsync();
 
         try
@@ -83,16 +85,14 @@ public partial class MainPage : ContentPage
         }
         catch
         {
-            // Se falhar ao processar o JSON (ex: erro de servidor), mantém o texto bruto original
+            // Mantém o texto bruto original se falhar ao analisar o JSON
         }
 
-        // StringComparison.OrdinalIgnoreCase garante que vai identificar a palavra "sucesso" mesmo se vier com letra maiúscula
         StatusLabel.TextColor = resultado.Contains("sucesso", StringComparison.OrdinalIgnoreCase) ? Colors.Green : Colors.Red;
         StatusLabel.Text = resultado;
-        
+
         BtnRegistrarPonto.IsEnabled = true;
     }
-
 
     public class VersaoDto
     {
@@ -101,5 +101,4 @@ public partial class MainPage : ContentPage
         public string UrlDownload { get; set; } = string.Empty;
         public bool Obrigatorio { get; set; }
     }
-
 }
