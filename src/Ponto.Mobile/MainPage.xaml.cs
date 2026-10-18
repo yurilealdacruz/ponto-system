@@ -1,4 +1,5 @@
 ﻿using Ponto.Mobile.Services;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Ponto.Mobile;
@@ -24,7 +25,43 @@ public partial class MainPage : ContentPage
         SaudacaoLabel.Text = $"Olá, {nomeFuncionario}!";
     }
 
-   private async void OnRegistrarPontoClicked(object? sender, EventArgs e)
+    private async Task VerificarAtualizacaoAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+            string url = "https://ponto-system.onrender.com/api/versao";
+
+            var resposta = await client.GetFromJsonAsync<VersaoDto>(url);
+
+            if (resposta != null)
+            {
+                // Defina a versão atual instalada no seu app (exemplo: 1)
+                int versaoInstalada = 1;
+
+                if (resposta.VersaoCodigo > versaoInstalada)
+                {
+                    bool atualizar = await DisplayAlert(
+                        "Nova Atualização Disponível!",
+                        $"Foi lançada a versão {resposta.VersaoNome} do Ponto. Deseja atualizar agora?",
+                        "Sim", "Mais tarde");
+
+                    if (atualizar)
+                    {
+                        // Abre o link de download do APK no navegador nativo do telemóvel para descarregar e instalar
+                        await Launcher.OpenAsync(new Uri(resposta.UrlDownload));
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // Se falhar ao checar (ex: sem internet), o app segue normalmente sem incomodar o utilizador
+        }
+    }
+
+
+    private async void OnRegistrarPontoClicked(object? sender, EventArgs e)
     {
         BtnRegistrarPonto.IsEnabled = false;
         StatusLabel.TextColor = Colors.Gray;
@@ -55,4 +92,14 @@ public partial class MainPage : ContentPage
         
         BtnRegistrarPonto.IsEnabled = true;
     }
+
+
+    public class VersaoDto
+    {
+        public int VersaoCodigo { get; set; }
+        public string VersaoNome { get; set; } = string.Empty;
+        public string UrlDownload { get; set; } = string.Empty;
+        public bool Obrigatorio { get; set; }
+    }
+
 }
