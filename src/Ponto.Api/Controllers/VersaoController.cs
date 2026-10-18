@@ -14,7 +14,7 @@ public class VersaoController : ControllerBase
         {
             VersaoCodigo = 2, // Incremente este número sempre que gerar um APK novo
             VersaoNome = "1.1.0",
-            UrlDownload = "https://ponto-system.onrender.com/downloads/app-release.apk", // Link onde o APK estará hospedado
+            UrlDownload = "https://www.mediafire.com/file/kdra3gztir5lf45/pontosystem.apk/file", // Link onde o APK estará hospedado
             Obrigatorio = false
         });
     }
