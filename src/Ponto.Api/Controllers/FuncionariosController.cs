@@ -32,6 +32,21 @@ public class FuncionariosController : ControllerBase
         return Ok(funcionario);
     }
 
+    // ADMINISTRADOR: Desativa o funcionário (soft delete)
+    [HttpPatch("{id}/desativar")]
+    public async Task<IActionResult> DesativarFuncionario(int id)
+    {
+        var funcionario = await _context.Funcionarios.FindAsync(id);
+
+        if (funcionario == null)
+            return NotFound(new { mensagem = "Funcionário não encontrado." });
+
+        funcionario.Ativo = false;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { mensagem = "Funcionário desativado com sucesso." });
+    }
+
     [HttpGet]
     public async Task<IActionResult> ListarFuncionarios()
     {
