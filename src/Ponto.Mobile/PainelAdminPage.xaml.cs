@@ -69,7 +69,8 @@ public partial class PainelAdminPage : ContentPage
                 }
                 else
                 {
-                    await DisplayAlert("Erro", "Não foi possível desativar o funcionário.", "OK");
+                    string erro = await response.Content.ReadAsStringAsync();
+                    await DisplayAlert("Erro", $"Falha ({response.StatusCode}): {erro}", "OK");
                 }
             }
             catch (Exception ex)
@@ -116,7 +117,7 @@ public partial class PainelAdminPage : ContentPage
             else
             {
                 string erro = await response.Content.ReadAsStringAsync();
-                await DisplayAlert("Erro", $"Não foi possível criar: {erro}", "OK");
+                await DisplayAlert("Erro", $"Falha ({response.StatusCode}): {erro}", "OK");
             }
         }
         catch (Exception ex)
