@@ -30,6 +30,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<PontoDbContext>();
 
     db.Database.Migrate();
+    db.Database.ExecuteSqlRaw("SELECT setval(pg_get_serial_sequence('\"Funcionarios\"', 'Id'), coalesce(max(\"Id\"), 1), max(\"Id\") IS NOT null) FROM \"Funcionarios\";");
 }
 
 // Configure the HTTP request pipeline.
