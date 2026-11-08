@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:res="clr-namespace:Ponto.Mobile.Strings"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ponto.Mobile.LoginPage"
              Title="Login">
 
     <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
 
-        <Label Text="Sistema de Ponto" FontSize="32" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,0,0,30" />
+        <!-- Traduzindo o Título -->
+        <Label Text="{x:Static res:AppResources.TxtBemVindo}" FontSize="32" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,0,0,30" />
 
+        <!-- Traduzindo o Placeholder (mantendo o x:Name estático para o C# usar) -->
         <Entry x:Name="IdentificadorEntry" 
-               Placeholder="CPF ou ID" 
+               Placeholder="{x:Static res:AppResources.PhIdentificador}" 
                Keyboard="Text" />
 
         <Entry x:Name="SenhaEntry" 
-               Placeholder="Senha" 
+               Placeholder="{x:Static res:AppResources.PhSenha}" 
                IsPassword="True" />
 
-        <Button Text="Entrar" 
+        <!-- O Botão já estava correto! -->
+        <Button Text="{x:Static res:AppResources.BtnEntrar}" 
                 Clicked="OnLoginClicked" 
                 BackgroundColor="#512BD4" 
                 TextColor="White" 

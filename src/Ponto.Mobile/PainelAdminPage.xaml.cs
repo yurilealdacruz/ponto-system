@@ -49,7 +49,11 @@ public partial class PainelAdminPage : ContentPage
     {
         if (sender is Button button && button.CommandParameter is int funcionarioId)
         {
-            bool confirmar = await DisplayAlert("Confirmação", "Deseja realmente desativar este funcionário? Ele perderá o acesso ao sistema, mas o histórico será preservado.", "Sim", "Não");
+            bool confirmar = await DisplayAlert(
+                Strings.AppResources.MsgConfirmacao, 
+                Strings.AppResources.MsgDesejaDesativar,
+                Strings.AppResources.BtnSim,
+                Strings.AppResources.BtnNao);
 
             if (!confirmar) return;
 
@@ -64,7 +68,7 @@ public partial class PainelAdminPage : ContentPage
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await DisplayAlert("Sucesso", "Funcionário desativado com sucesso.", "OK");
+                    await DisplayAlert(Strings.AppResources.MsgSucesso, Strings.AppResources.MsgFuncionarioDesativado, "OK");
                     await CarregarEquipe(); // Atualiza a lista
                 }
                 else

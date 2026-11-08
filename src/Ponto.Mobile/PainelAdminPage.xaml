@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:res="clr-namespace:Ponto.Mobile.Strings"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ponto.Mobile.PainelAdminPage"
-             Title="Gestão de Equipe"
+             Title="{x:Static res:AppResources.TitleGestaoEquipe}"
              BackgroundColor="#F5F5F5">
 
-    <!-- Botão no topo para adicionar novo funcionário -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+ Novo" Clicked="OnNovoFuncionarioClicked" />
+        <ToolbarItem Text="{x:Static res:AppResources.BtnNovo}" Clicked="OnNovoFuncionarioClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto,*">
-        <Label Grid.Row="0" Text="Colaboradores" FontSize="22" FontAttributes="Bold" Margin="15" />
+        <Label Grid.Row="0" Text="{x:Static res:AppResources.LblColaboradores}" FontSize="22" FontAttributes="Bold" Margin="15" />
 
         <RefreshView Grid.Row="1" x:Name="RefreshEquipe" Refreshing="OnRefreshEquipe">
             <CollectionView x:Name="ListaEquipe" Margin="15">
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0,0,0,15" Padding="15">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10" />
                             </Border.StrokeShape>
-
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="BackgroundColor" Value="White" />
@@ -37,24 +35,21 @@
                             </Border.Style>
 
                             <Grid ColumnDefinitions="*, Auto, Auto">
-                                <!-- Informações do Funcionário (Clica para ver detalhes) -->
                                 <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
                                     <VerticalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnColaboradorTapped" CommandParameter="{Binding .}" />
                                     </VerticalStackLayout.GestureRecognizers>
 
                                     <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="18" TextColor="#333333" />
-                                    <Label Text="Ajuste Pendente" TextColor="#B8860B" FontSize="13" FontAttributes="Italic" IsVisible="{Binding TemAjustePendente}" />
+                                    <Label Text="{x:Static res:AppResources.LblAjustePendente}" TextColor="#B8860B" FontSize="13" FontAttributes="Italic" IsVisible="{Binding TemAjustePendente}" />
                                 </VerticalStackLayout>
 
-                                <!-- Botão de Desativar -->
-                                <Button Grid.Column="1" Text="Desativar" 
+                                <Button Grid.Column="1" Text="{x:Static res:AppResources.BtnDesativar}" 
                                         BackgroundColor="#DC3545" TextColor="White" 
                                         FontSize="12" HeightRequest="36" Margin="0,0,10,0"
                                         VerticalOptions="Center"
                                         Clicked="OnDesativarClicked" CommandParameter="{Binding Id}" />
 
-                                <!-- Seta -->
                                 <Label Grid.Column="2" Text=">" FontSize="20" TextColor="Gray" VerticalOptions="Center" FontAttributes="Bold">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnColaboradorTapped" CommandParameter="{Binding .}" />
@@ -66,9 +61,8 @@
                 </CollectionView.ItemTemplate>
 
                 <CollectionView.EmptyView>
-                    <Label Text="Nenhum colaborador encontrado." HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray" />
+                    <Label Text="{x:Static res:AppResources.MsgNenhumColaborador}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray" />
                 </CollectionView.EmptyView>
-
             </CollectionView>
         </RefreshView>
     </Grid>
