@@ -68,9 +68,41 @@ public partial class MainPage : ContentPage
     {
         BtnRegistrarPonto.IsEnabled = false;
         StatusLabel.TextColor = Colors.Gray;
-        StatusLabel.Text = "Registrando ponto...";
+        StatusLabel.Text = "A obter localização..."; // Informa o utilizador
 
-        var resultado = await _apiService.RegistrarPontoAsync();
+        double? latitude = null;
+        double? longitude = null;
+
+        try
+        {
+            // Solicita a localização com precisão média e tempo limite de 10 segundos
+            var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+            var location = await Geolocation.Default.GetLocationAsync(request);
+
+            if (location != null)
+            {
+                latitude = location.Latitude;
+                longitude = location.Longitude;
+            }
+        }
+        catch (FeatureNotSupportedException)
+        {
+            await DisplayAlert("Erro", "O GPS não é suportado neste dispositivo.", "OK");
+        }
+        catch (PermissionException)
+        {
+            await DisplayAlert("Permissão Negada", "A aplicação precisa de acesso à localização para registar o ponto.", "OK");
+        }
+        catch (Exception)
+        {
+            // Ignora falhas de GPS para não travar a app (pode registar sem localização dependendo da sua regra de negócio)
+        }
+
+        StatusLabel.Text = "A registar ponto...";
+
+        // PASSAR A LOCALIZAÇÃO PARA O SERVIÇO DA API
+        // Atenção: O seu método RegistrarPontoAsync precisa ser atualizado para receber estes parâmetros!
+        var resultado = await _apiService.RegistrarPontoAsync(latitude, longitude);
 
         try
         {

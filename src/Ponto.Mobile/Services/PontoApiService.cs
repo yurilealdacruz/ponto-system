@@ -9,11 +9,11 @@ public class PontoApiService
     public PontoApiService(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        // Substitua pela porta real que você copiou do Swagger
         _httpClient.BaseAddress = new Uri("https://ponto-system.onrender.com/");
     }
 
-    public async Task<string> RegistrarPontoAsync()
+    // 1. Adicionados os dois parâmetros aqui:
+    public async Task<string> RegistrarPontoAsync(double? latitude, double? longitude)
     {
         try
         {
@@ -25,8 +25,8 @@ public class PontoApiService
             var dadosPonto = new
             {
                 FuncionarioId = funcionarioId,
-                Latitude = 0.0, // Se estiver a usar geolocalização real, pode passar aqui
-                Longitude = 0.0,
+                Latitude = latitude,   // 2. Agora repassa a latitude recebida do GPS
+                Longitude = longitude, // 3. Agora repassa a longitude recebida do GPS
                 GPSMockado = false
             };
 

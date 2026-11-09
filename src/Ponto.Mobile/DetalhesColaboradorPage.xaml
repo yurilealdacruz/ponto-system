@@ -71,7 +71,8 @@
 
             <CollectionView x:Name="ListaHistorico">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*" Padding="0,0,0,10">
+                    <!-- Ajustado para 6 colunas, a última para o botão -->
+                    <Grid ColumnDefinitions="1.5*, 1*, 1*, 1*, 1*, 40" Padding="0,0,0,10">
                         <Label Text="Data" FontAttributes="Bold" Grid.Column="0" />
                         <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
                         <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center"/>
@@ -82,12 +83,26 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*" Padding="0,12">
-                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="Gray" />
-                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" />
-                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" />
-                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" />
-                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" />
+                        <Grid ColumnDefinitions="1.5*, 1*, 1*, 1*, 1*, 40" Padding="0,12" VerticalOptions="Center">
+                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="Gray" FontSize="13" />
+                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+
+                            <!-- Botão de Mapa dentro da linha, apontando para a classe DiaTrabalho -->
+                            <Button Grid.Column="5" 
+                                    Text="📍" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="#17A2B8" 
+                                    Padding="0" 
+                                    FontSize="16"
+                                    HeightRequest="30"
+                                    WidthRequest="30"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    CommandParameter="{Binding .}" 
+                                    Clicked="OnAbrirMapaDiaClicked" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
