@@ -214,7 +214,7 @@ namespace Ponto.Mobile.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bem-vindo ao Ponto.
+        ///   Looks up a localized string similar to GeoPonto.
         /// </summary>
         public static string TxtBemVindo {
             get {
