@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ponto.Mobile.HistoricoPage"
-             Title="Meu Histórico">
+             Title="Meu Histórico"
+             BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#121212}">
 
     <!-- Grid simplificado sem o botão de exportar PDF -->
     <Grid RowDefinitions="*">
@@ -11,22 +12,22 @@
 
                 <CollectionView.Header>
                     <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*, 30" Padding="0,0,0,15">
-                        <Label Text="Data" FontAttributes="Bold" Grid.Column="0" />
-                        <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
-                        <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center"/>
-                        <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center"/>
-                        <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center"/>
+                        <Label Text="Data" FontAttributes="Bold" Grid.Column="0" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     </Grid>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="2*, 1*, 1*, 1*, 1*, 30" Padding="0,12">
-                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="Gray" />
-                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" />
-                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" />
-                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" />
-                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="{AppThemeBinding Light=Gray, Dark=#CCCCCC}" />
+                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                             <ImageButton Grid.Column="5" 
                                         Source="dotnet_bot.png" 

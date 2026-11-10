@@ -2,16 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ponto.Mobile.DetalhesColaboradorPage"
-             BackgroundColor="#F5F5F5">
+             BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#121212}">
 
     <Grid RowDefinitions="Auto, *">
 
         <StackLayout Padding="15" Spacing="10">
-            <Label Text="Exportar Espelho de Ponto" FontAttributes="Bold" FontSize="16" />
+            <Label Text="Exportar Espelho de Ponto" FontAttributes="Bold" FontSize="16" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
             <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
                 <!-- Picker de Mês -->
-                <Picker x:Name="PickerMes" Title="Selecione o Mês" Grid.Column="0">
+                <Picker x:Name="PickerMes" Title="Selecione o Mês" Grid.Column="0" TextColor="{AppThemeBinding Light=Black, Dark=White}" TitleColor="{AppThemeBinding Light=Gray, Dark=LightGray}">
                     <Picker.Items>
                         <x:String>Janeiro</x:String>
                         <x:String>Fevereiro</x:String>
@@ -29,7 +29,7 @@
                 </Picker>
 
                 <!-- Picker de Ano -->
-                <Picker x:Name="PickerAno" Title="Ano" Grid.Column="1">
+                <Picker x:Name="PickerAno" Title="Ano" Grid.Column="1" TextColor="{AppThemeBinding Light=Black, Dark=White}" TitleColor="{AppThemeBinding Light=Gray, Dark=LightGray}">
                     <Picker.Items>
                         <x:String>2025</x:String>
                         <x:String>2026</x:String>
@@ -38,21 +38,23 @@
             </Grid>
 
             <Button Text="Baixar Relatório PDF" 
-            BackgroundColor="#4A148C" 
-            TextColor="White" 
-            Clicked="OnGerarPdfAdminClicked" />
+                    BackgroundColor="{AppThemeBinding Light=#4A148C, Dark=#6A1B9A}" 
+                    TextColor="White" 
+                    Clicked="OnGerarPdfAdminClicked" />
         </StackLayout>
 
         <!-- CARTÃO DE AJUSTE PENDENTE (Oculto por padrão) -->
         <ContentView x:Name="ContainerPendencia" Grid.Row="0" IsVisible="False" Padding="15,15,15,0">
-            <Border BackgroundColor="#FFFACD" Stroke="#FFD700" Padding="15">
+            <Border BackgroundColor="{AppThemeBinding Light=#FFFACD, Dark=#2A2400}" 
+                    Stroke="{AppThemeBinding Light=#FFD700, Dark=#B8860B}" 
+                    Padding="15">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="10" />
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="5">
-                    <Label Text="Solicitação de Ajuste Pendente" FontAttributes="Bold" FontSize="16" TextColor="#B8860B" />
-                    <Label x:Name="LabelDataSugerida" TextColor="#333" FontAttributes="Bold" />
-                    <Label x:Name="LabelJustificativa" TextColor="Gray" FontAttributes="Italic" />
+                    <Label Text="Solicitação de Ajuste Pendente" FontAttributes="Bold" FontSize="16" TextColor="{AppThemeBinding Light=#B8860B, Dark=#FFD700}" />
+                    <Label x:Name="LabelDataSugerida" TextColor="{AppThemeBinding Light=#333333, Dark=#E0E0E0}" FontAttributes="Bold" />
+                    <Label x:Name="LabelJustificativa" TextColor="{AppThemeBinding Light=Gray, Dark=#CCCCCC}" FontAttributes="Italic" />
 
                     <Button x:Name="BtnAprovar" 
                             Text="Aprovar Ajuste" 
@@ -67,28 +69,27 @@
 
         <!-- HISTÓRICO DO COLABORADOR -->
         <VerticalStackLayout Grid.Row="1" Padding="15">
-            <Label Text="Histórico de Ponto" FontSize="18" FontAttributes="Bold" Margin="0,10,0,10" />
+            <Label Text="Histórico de Ponto" FontSize="18" FontAttributes="Bold" Margin="0,10,0,10" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
             <CollectionView x:Name="ListaHistorico">
                 <CollectionView.Header>
-                    <!-- Ajustado para 6 colunas, a última para o botão -->
                     <Grid ColumnDefinitions="1.5*, 1*, 1*, 1*, 1*, 40" Padding="0,0,0,10">
-                        <Label Text="Data" FontAttributes="Bold" Grid.Column="0" />
-                        <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
-                        <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center"/>
-                        <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center"/>
-                        <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center"/>
+                        <Label Text="Data" FontAttributes="Bold" Grid.Column="0" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Ent 1" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Sai 1" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Ent 2" FontAttributes="Bold" Grid.Column="3" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Text="Sai 2" FontAttributes="Bold" Grid.Column="4" HorizontalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     </Grid>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="1.5*, 1*, 1*, 1*, 1*, 40" Padding="0,12" VerticalOptions="Center">
-                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="Gray" FontSize="13" />
-                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
-                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
-                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
-                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+                            <Label Text="{Binding DataFormatada}" Grid.Column="0" VerticalOptions="Center" TextColor="{AppThemeBinding Light=Gray, Dark=#CCCCCC}" FontSize="13" />
+                            <Label Text="{Binding Ponto1}" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="{Binding Ponto2}" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="{Binding Ponto3}" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            <Label Text="{Binding Ponto4}" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                             <!-- Botão de Mapa dentro da linha, apontando para a classe DiaTrabalho -->
                             <Button Grid.Column="5" 
